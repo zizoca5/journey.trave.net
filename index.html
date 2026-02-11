@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Sports TV</title>
+<style>
+body{font-family:Arial;text-align:center;background:#111;color:white;}
+button{padding:10px 25px;font-size:16px;border:none;border-radius:6px;cursor:pointer;background:#e50914;color:white;margin-top:15px;}
+button:disabled{background:gray;}
+.box{margin-top:60px;}
+#codeBox{display:none;margin-top:40px;background:#222;padding:30px;border-radius:10px;}
+#activationCode{font-size:30px;color:#00ff88;font-weight:bold;}
+</style>
+</head>
+<body>
+
+<h2>Sports TV</h2>
+
+<div class="box" id="step1">
+  <p id="timer1"></p>
+  <button id="next1" disabled>التالي</button>
+</div>
+
+<div class="box" id="step2" style="display:none;">
+  <p id="timer2"></p>
+  <button id="getCodeBtn" disabled>الحصول على الكود</button>
+</div>
+
+<div id="codeBox">
+  <h3>🎉SportsTV الكود الجديد من قناة 🎉</h3>
+  <p id="activationCode"></p>
+</div>
+
+<script>
+
+let waitTime = 15;
+
+function startTimer(timerId, buttonId){
+  let time = waitTime;
+  let timerText = document.getElementById(timerId);
+  let button = document.getElementById(buttonId);
+
+  let interval = setInterval(()=>{
+    timerText.innerText = "انتظر " + time + " ثانية";
+    time--;
+    if(time < 0){
+      clearInterval(interval);
+      timerText.innerText = "يمكنك المتابعة الآن";
+      button.disabled = false;
+    }
+  },1000);
+}
+
+startTimer("timer1","next1");
+
+document.getElementById("next1").onclick = function(){
+  document.getElementById("step1").style.display="none";
+  document.getElementById("step2").style.display="block";
+  startTimer("timer2","getCodeBtn");
+}
+
+document.getElementById("getCodeBtn").onclick = function(){
+  document.getElementById("codeBox").style.display="block";
+
+  let savedCode = localStorage.getItem("mainCode") || "1222";
+  document.getElementById("activationCode").innerText = savedCode;
+}
+
+</script>
+
+</body>
+  </html>
