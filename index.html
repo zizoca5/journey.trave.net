@@ -31,9 +31,29 @@ button:disabled{background:gray;}
   <p id="activationCode"></p>
 </div>
 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
+firebase.initializeApp({
+  apiKey: "AIzaSyAUc2cH9gVE7RECiW19XQXjNZQxVH96sFE",
+  authDomain: "zezo-59a8d.firebaseapp.com",
+  databaseURL: "https://zezo-59a8d-default-rtdb.firebaseio.com",
+  projectId: "zezo-59a8d"
+});
+
+const db = firebase.database();
 
 let waitTime = 15;
+let liveCode = "----";
+
+// قراءة الكود مباشر من فايربيز
+db.ref("settings/mainCode").on("value", snapshot=>{
+  if(snapshot.exists()){
+    liveCode = snapshot.val();
+  }
+});
 
 function startTimer(timerId, buttonId){
   let time = waitTime;
@@ -61,12 +81,9 @@ document.getElementById("next1").onclick = function(){
 
 document.getElementById("getCodeBtn").onclick = function(){
   document.getElementById("codeBox").style.display="block";
-
-  let savedCode = localStorage.getItem("mainCode") || "1222";
-  document.getElementById("activationCode").innerText = savedCode;
+  document.getElementById("activationCode").innerText = liveCode;
 }
-
 </script>
 
 </body>
-  </html>
+</html>
